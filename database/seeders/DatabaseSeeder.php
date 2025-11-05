@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Practice;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,8 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            // ここに Seeder を追加する
-        ]);
+        Practice::factory(10)->create();
     }
 }
