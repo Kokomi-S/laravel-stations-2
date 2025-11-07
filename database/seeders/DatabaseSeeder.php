@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Practice::factory(10)->create();
-        Movie::factory(10)->create();
+        Movie::factory(100)->create();
     }
 }
