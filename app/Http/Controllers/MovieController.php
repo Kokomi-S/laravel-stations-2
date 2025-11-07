@@ -7,9 +7,26 @@ use App\Models\Movie;
 
 class MovieController extends Controller
 {
-    public function index() {
-        $movies = Movie::all();
-        return view('movie', ['movies' => $movies]);
+    public function index(Request $request) {
+        $query = Movie::query();
+
+        // 上映状況での絞り込み
+        if ($request->has('is_showing') && $request->is_showing === '1') {
+            $query->where('is_showing', true);
+        } else if ($request->has('is_showing') && $request->is_showing === '0') {
+            $query->where('is_showing', false);
+        }
+        // キーワード検索（タイトルと概要の両方から検索）
+        if ($request->has('keyword') && !empty($request->keyword)) {
+            $keyword = $request->keyword;
+            $query->where(function($q) use ($keyword) {
+                $q->where('title', 'like', '%' . $keyword . '%')
+                ->orWhere('description', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        $movies = $query->paginate(20); // 1ページあたり20件でページネーション
+        return view('admin.movies.index', ['movies' => $movies]);
     }
 
     public function adminIndex() {

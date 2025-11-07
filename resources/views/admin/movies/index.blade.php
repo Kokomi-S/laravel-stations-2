@@ -1,3 +1,24 @@
+<form action="{{ route('movies.index') }}">
+    <div>
+        <label for="title">映画タイトル：</label>
+        <input type="text" id="title" name="title" value="{{ request('title') }}" placeholder="入力">
+    </div>
+    <div>
+        <div>
+            <label>上映状況：</label>
+            <input type="radio" id="query_all" name="is_showing" value="" {{ request('is_showing') === null  || request('is_showing') === '' ? 'checked' : '' }}>
+            <label for="query_all">すべて</label>
+            
+            <input type="radio" id="query_showing" name="is_showing" value="1" {{ request('is_showing') === '1' ? 'checked' : '' }}>
+            <label for="query_showing">上映中</label>
+            
+            <input type="radio" id="query_not_showing" name="is_showing" value="0" {{ request('is_showing') === '0' ? 'checked' : '' }}>
+            <label for="query_not_showing">上映予定</label>
+        </div>
+        <button type="submit">検索</button>
+    </div>
+</form>
+
 <div>
     @if (session('success'))
         <div style="color: green;">
