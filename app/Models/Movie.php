@@ -13,7 +13,10 @@ class Movie extends Model
         'id',
         'title',
         'image_url',
+        'published_year',
+        'is_showing',
+        'description',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 }

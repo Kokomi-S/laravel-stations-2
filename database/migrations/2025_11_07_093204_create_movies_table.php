@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('image_url');
+            $table->year('published_year');
+            $table->boolean('is_showing');
+            $table->text('description');
             $table->timestamps();
         });
     }
