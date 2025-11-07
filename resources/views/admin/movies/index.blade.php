@@ -1,6 +1,7 @@
 <div>
     <table border cellspacing="0">
         <tr>
+            <td>ID</td>
             <td>映画タイトル</td>
             <td>画像URL</td>
             <td>公開年</td>
@@ -11,6 +12,7 @@
         </tr>
         @foreach ($movies as $movie)
             <tr>
+                <td>{{$movie->id}}</td>
                 <td>{{$movie->title}}</td>
                 <td>{{$movie->image_url}}</td>
                 <td>{{$movie->published_year}}</td>

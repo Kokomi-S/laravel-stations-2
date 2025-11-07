@@ -19,4 +19,8 @@ class Movie extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected $attributes = [
+        'is_showing' => false,
+    ];
 }

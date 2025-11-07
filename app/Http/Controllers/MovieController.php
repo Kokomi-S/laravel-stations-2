@@ -16,4 +16,34 @@ class MovieController extends Controller
         $movies = Movie::all();
         return view('admin.movies.index', ['movies' => $movies]);
     }
+
+    public function create() {
+        return view('admin.movies.create');
+    }
+
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255|unique:movies,title',
+            'image_url' => 'required|url|max:255',
+            'published_year' => 'required|integer|min:1800',
+            'is_showing' => 'required|boolean',
+            'description' => 'string',
+        ],[
+            'title.required' => 'タイトルを入力してください',
+            'title.unique' => 'このタイトルはすでに存在します',
+            'image_url.required' => '画像URLを入力してください',
+            'image_url.url' => '正しいURL形式で入力してください',
+            'published_year.required' => '公開年を入力してください',
+            'published_year.integer' => '公開年は整数で入力してください',
+            'published_year.min' => '公開年は1800年以降で入力してください',
+            'is_showing.required' => '上映中かどうかを選択してください',
+            'is_showing.boolean' => '上映中の値が不正です',
+            'description.string' => '説明文を入力してください',
+        ]);
+
+        Movie::create($validated);
+
+        return redirect('/admin/movies')->with('success', '映画が作成されました');
+
+    }
 }

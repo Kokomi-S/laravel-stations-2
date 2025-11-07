@@ -24,5 +24,10 @@ Route::get('/practice2', [PracticeController::class, 'sample2'])->name('practice
 Route::get('/practice3', [PracticeController::class, 'sample3'])->name('practice3');
 Route::get('/getPractice', [PracticeController::class, 'getPractice'])->name('getPractice');
 
+// 一般ユーザー
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
+
+// 管理者
 Route::get('/admin/movies', [MovieController::class, 'adminIndex'])->name('movies.adminIndex');
+Route::get('/admin/movies/create', [MovieController::class, 'create'])->name('movies.create');
+Route::post('/admin/movies/store', [MovieController::class, 'store'])->name('movies.store');
