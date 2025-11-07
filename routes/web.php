@@ -31,3 +31,5 @@ Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
 Route::get('/admin/movies', [MovieController::class, 'adminIndex'])->name('movies.adminIndex');
 Route::get('/admin/movies/create', [MovieController::class, 'create'])->name('movies.create');
 Route::post('/admin/movies/store', [MovieController::class, 'store'])->name('movies.store');
+Route::get('/admin/movies/{id}/edit', [MovieController::class, 'edit'])->name('movies.edit');
+Route::patch('/admin/movies/{id}/update', [MovieController::class, 'update'])->name('movies.update');

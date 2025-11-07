@@ -21,6 +21,7 @@
     </div>
     <div>
         <label for="is_showing">上映中:</label>
+        <input type="hidden" name="is_showing" value="0">
         <input type="checkbox" id="is_showing" name="is_showing" value="1" {{ old('is_showing') ? 'checked' : '' }}>
     </div>
     <div>
