@@ -33,6 +33,11 @@
                 <td>{{$movie->updated_at}}</td>
                 <td>
                     <button onclick="location.href='{{ route('movies.edit', ['id' => $movie->id]) }}'">編集</button>
+                    <form style="display:inline;" method="POST" action="{{ route('movies.destroy', ['id' => $movie->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('本当に削除しますか？')">削除</button>
+                    </form>
                 </td>
             </tr>
             @endforeach
