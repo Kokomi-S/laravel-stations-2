@@ -13,6 +13,7 @@ class Movie extends Model
         'id',
         'title',
         'image_url',
+        'genre_id',
         'published_year',
         'is_showing',
         'description',
@@ -23,4 +24,8 @@ class Movie extends Model
     protected $attributes = [
         'is_showing' => false,
     ];
+
+    public function genre() {
+        return $this->belongsTo(Genre::class);
+    }
 }

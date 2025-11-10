@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Movie;
+use App\Models\Genre;
 
 class MovieController extends Controller
 {
@@ -40,8 +42,10 @@ class MovieController extends Controller
     }
 
     public function store(Request $request) {
+        
         $validated = $request->validate([
-            'title' => 'required|string|max:255|unique:movies,title',
+            'title' => 'required|string|unique:movies,title',
+            'genre' => 'required|string|max:255',
             'image_url' => 'required|url|max:255',
             'published_year' => 'required|integer|min:1800',
             'is_showing' => 'required|boolean',
@@ -49,6 +53,7 @@ class MovieController extends Controller
         ],[
             'title.required' => 'タイトルを入力してください',
             'title.unique' => 'このタイトルはすでに存在します',
+            'genre.required' => 'ジャンルを入力してください',
             'image_url.required' => '画像URLを入力してください',
             'image_url.url' => '正しいURL形式で入力してください',
             'published_year.required' => '公開年を入力してください',
@@ -59,8 +64,14 @@ class MovieController extends Controller
             'description.string' => '説明文を入力してください',
         ]);
 
-        Movie::create($validated);
-
+        DB::transaction(function () use ($request, $validated) {
+            // ジャンルが既に存在するかチェック、なければ新規作成
+            $genre = Genre::firstOrCreate(['name' => $validated['genre']]);
+            $validated['genre_id'] = $genre->id;
+            unset($validated['genre']);
+            Movie::create($validated);
+        });
+        
         return redirect('/admin/movies')->with('success', '映画が作成されました');
     }
 
@@ -71,9 +82,10 @@ class MovieController extends Controller
 
     public function update(Request $request, $id) {
         $movie = Movie::findOrFail($id);
-
+        
         $validated = $request->validate([
-            'title' => 'required|string|max:255|unique:movies,title,' . $movie->id,
+            'title' => 'required|string|unique:movies,title,' . $movie->id,
+            'genre' => 'required|string|max:255',
             'image_url' => 'required|url|max:255',
             'published_year' => 'required|integer|min:1800',
             'is_showing' => 'required|boolean',
@@ -81,6 +93,7 @@ class MovieController extends Controller
         ],[
             'title.required' => 'タイトルを入力してください',
             'title.unique' => 'このタイトルはすでに存在します',
+            'genre.required' => 'ジャンルを入力してください',
             'image_url.required' => '画像URLを入力してください',
             'image_url.url' => '正しいURL形式で入力してください',
             'published_year.required' => '公開年を入力してください',
@@ -91,8 +104,12 @@ class MovieController extends Controller
             'description.string' => '説明文を入力してください',
         ]);
 
-        $movie->update($validated);
-
+        DB::transaction(function() use ($validated, $movie){
+            $genre = Genre::firstOrCreate(['name' => $validated['genre']]);
+            $validated['genre_id'] = $genre->id;
+            unset($validated['genre']);
+            $movie->update($validated);
+        });
         return redirect('/admin/movies')->with('success', '映画が更新されました');
     }
 

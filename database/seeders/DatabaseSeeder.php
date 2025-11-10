@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Practice;
 use App\Models\Movie;
+use App\Models\Genre;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,5 +18,6 @@ class DatabaseSeeder extends Seeder
     {
         Practice::factory(10)->create();
         Movie::factory(100)->create();
+        Genre::factory(10)->create();
     }
 }

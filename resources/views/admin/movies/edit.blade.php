@@ -13,6 +13,10 @@
         <input type="text" id="title" name="title" value="{{ old('title', $movie->title) }}" required>
     </div>
     <div>
+        <label for="genre">ジャンル:</label>
+        <input type="text" id="genre" name="genre" value="{{ old('genre', $movie->genre->name) }}" required>
+    </div>
+    <div>
         <label for="image_url">画像URL:</label>
         <input type="text" id="image_url" name="image_url" value="{{ old('image_url', $movie->image_url) }}" required>
     </div>
