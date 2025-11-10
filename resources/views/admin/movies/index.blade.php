@@ -11,7 +11,7 @@
             <div>
                 <div>
                     <label for="title">映画タイトル：</label>
-                    <input type="text" id="title" name="title" value="{{ request('title') }}" placeholder="入力">
+                    <input type="text" id="keyword" name="keyword" value="{{ request('keyword') }}" placeholder="入力">
                 </div>
                 <div>
                     <label>上映状況：</label>

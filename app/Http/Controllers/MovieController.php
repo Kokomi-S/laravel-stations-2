@@ -26,6 +26,7 @@ class MovieController extends Controller
         }
 
         $movies = $query->paginate(20); // 1ページあたり20件でページネーション
+        $movies->appends($request->query()); // クエリパラメータをページネーションリンクに追加
         return view('admin.movies.index', ['movies' => $movies]);
     }
 
