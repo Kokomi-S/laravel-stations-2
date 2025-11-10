@@ -23,7 +23,10 @@ class MovieController extends Controller
             $keyword = $request->keyword;
             $query->where(function($q) use ($keyword) {
                 $q->where('title', 'like', '%' . $keyword . '%')
-                ->orWhere('description', 'like', '%' . $keyword . '%');
+                ->orWhere('description', 'like', '%' . $keyword . '%')
+                ->orWhereHas('genre', function($query) use ($keyword) {
+                    $query->where('name', 'like', '%' . $keyword . '%');
+                });
             });
         }
 
