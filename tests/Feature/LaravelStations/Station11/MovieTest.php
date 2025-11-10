@@ -127,6 +127,31 @@ class MovieTest extends TestCase
         $response->assertDontSee($excludes);
     }
 
+    #[Test]
+    #[Group('station11')]
+    public function test_映画一覧でページネーションがクエリを保持しているか(): void
+    {
+        // 21件作成して確実に2ページ目が存在するようにする
+        for ($i = 0; $i < 21; $i++) {
+            Movie::insert([
+                'title' => 'title' . $i,
+                'image_url' => 'https://techbowl.co.jp/_nuxt/img/6074f79.png',
+                'published_year' => 2000 + $i,
+                'description' => '概要' . $i,
+                'is_showing' => true,
+            ]);
+        }
+
+        // クエリパラメータ付きで1ページ目を取得
+        $response = $this->get('/movies?keyword=title&is_showing=1');
+        $response->assertStatus(200);
+
+        // ページネーションリンクにクエリパラメータが保持されていることを確認
+        $response->assertSee('keyword=title', false);
+        $response->assertSee('is_showing=1', false);
+        $response->assertSee('page=2', false);
+    }
+
     public static function dataProvider_ページに対応する映画タイトル(): array
     {
         return [
