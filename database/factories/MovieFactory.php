@@ -15,7 +15,7 @@ class MovieFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->unique()->word,
+            'title' => $this->faker->unique()->word(),
             'image_url' => $this->faker->imageUrl(),
             'genre_id' => Genre::factory(),
             'published_year' => $this->faker->year,

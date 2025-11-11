@@ -14,7 +14,8 @@ class SheetFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'column' => $this->faker->numberBetween(1, 100),
+            'row' => $this->faker->lexify('Row ?'),
         ];
     }
 }

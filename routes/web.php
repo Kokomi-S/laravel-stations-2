@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\SheetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,9 @@ Route::get('/practice2', [PracticeController::class, 'sample2'])->name('practice
 Route::get('/practice3', [PracticeController::class, 'sample3'])->name('practice3');
 Route::get('/getPractice', [PracticeController::class, 'getPractice'])->name('getPractice');
 
+
 // 一般ユーザー
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
-
 // 管理者
 Route::get('/admin/movies', [MovieController::class, 'adminIndex'])->name('movies.adminIndex');
 Route::get('/admin/movies/create', [MovieController::class, 'create'])->name('movies.create');
@@ -34,3 +35,6 @@ Route::post('/admin/movies/store', [MovieController::class, 'store'])->name('mov
 Route::get('/admin/movies/{id}/edit', [MovieController::class, 'edit'])->name('movies.edit');
 Route::patch('/admin/movies/{id}/update', [MovieController::class, 'update'])->name('movies.update');
 Route::delete('/admin/movies/{id}/destroy', [MovieController::class, 'destroy'])->name('movies.destroy');
+//座席表
+Route::get('/sheets', [SheetController::class, 'index'])->name('sheets.index');
+
