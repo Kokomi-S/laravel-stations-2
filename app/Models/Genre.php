@@ -13,6 +13,10 @@ class Genre extends Model
         'created_at',
         'updated_at',
     ];
-
+    
+    public function movies()
+    {
+        return $this->hasMany(Movie::class);
+    }
     use HasFactory;
 }

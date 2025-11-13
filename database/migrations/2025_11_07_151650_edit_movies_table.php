@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::table('movies', function (Blueprint $table) {
             $table->string('title')->unique()->change();
             $table->string('image_url')->change();
-            $table->foreign('genre_id')->references('id')->on('genres');
+            $table->foreign('genre_id')
+                ->references('id')
+                ->on('genres')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->integer('published_year')->change();
             $table->boolean('is_showing')->default(false)->change();
             $table->text('description')->change();

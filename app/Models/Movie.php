@@ -10,22 +10,29 @@ class Movie extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
         'title',
         'image_url',
         'genre_id',
         'published_year',
         'is_showing',
         'description',
-        'created_at',
-        'updated_at',
     ];
 
+    protected $casts = [
+        'is_showing' => 'boolean',
+        'published_year' => 'integer',
+    ];
+    
     protected $attributes = [
         'is_showing' => false,
     ];
 
-    public function genre() {
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+    public function genre() 
+    {
         return $this->belongsTo(Genre::class);
     }
 }

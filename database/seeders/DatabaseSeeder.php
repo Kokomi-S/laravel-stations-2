@@ -6,6 +6,7 @@ use App\Practice;
 use App\Models\Movie;
 use App\Models\Genre;
 use App\Models\Sheet;
+use App\Models\Schedule;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -38,5 +39,16 @@ class DatabaseSeeder extends Seeder
             ['id'=>14,'column'=>4, 'row'=>'c'],
             ['id'=>15,'column'=>5, 'row'=>'c'],
         ]);
+        // スケジュール数を指定してランダムな既存の映画IDを割り当てる
+        $scheduleCount = 50; // 作成したいスケジュールの数を指定
+        $movieIds = Movie::pluck('id')->toArray();
+
+        if (!empty($movieIds)) {
+            for ($i = 0; $i < $scheduleCount; $i++) {
+                Schedule::factory()->create([
+                    'movie_id' => $movieIds[array_rand($movieIds)],
+                ]);
+            }
+        }
     }
 }

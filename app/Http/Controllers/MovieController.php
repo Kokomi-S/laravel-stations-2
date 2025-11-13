@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Movie;
 use App\Models\Genre;
+use App\Models\Schedule;
 
 class MovieController extends Controller
 {
@@ -121,5 +122,13 @@ class MovieController extends Controller
         $movie->delete();
 
         return redirect('/admin/movies')->with('success', '映画が削除されました');
+    }
+
+    // 一般ユーザー向けの詳細表示（スケジュール）
+    public function show($id) {
+        $movie = Movie::findOrFail($id);
+        $schedules = Schedule::where('movie_id', $id)->orderBy('start_time', 'asc')->get();
+
+        return view('movieSchedule', compact('movie', 'schedules'));
     }
 }
