@@ -132,7 +132,7 @@ class AdminScheduleTest extends TestCase
 
     #[Test]
     #[Group('station15')]
-    public function test管理者映画編スケジュール集画面が表示されているか(): void
+    public function test管理者映画スケジュール編集画面が表示されているか(): void
     {
         $startTime = new CarbonImmutable('2022-01-01 00:00:00');
         $endTime = new CarbonImmutable('2022-01-01 02:00:00');

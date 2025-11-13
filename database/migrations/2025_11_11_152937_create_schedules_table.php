@@ -19,12 +19,12 @@ return new class extends Migration
                     ->on('movies')
                     ->onDelete('cascade')
                     ->onUpdate('cascade'); // 列
-            $table->time('start_time');          // 上映開始時間
-            $table->time('end_time');            // 上映終了時間
+            $table->dateTime('start_time');          // 上映開始時間
+            $table->dateTime('end_time');            // 上映終了時間
             $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      */

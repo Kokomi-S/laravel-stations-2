@@ -131,4 +131,103 @@ class MovieController extends Controller
 
         return view('movieSchedule', compact('movie', 'schedules'));
     }
+
+    public function scheduleIndex() {
+        $movies = Movie::whereHas('schedules')
+            ->with(['schedules' => function ($q) {
+                $q->orderBy('start_time', 'asc');
+            }])
+            ->paginate(20);
+        $schedules = Schedule::orderBy('start_time', 'asc')->paginate(20);
+        return view('admin.schedules.index', ['schedules' => $schedules, 'movies' => $movies]);
+    }
+
+    public function scheduleShow($id) {
+        $movies = Movie::findOrFail($id);
+        $schedules = Schedule::orderBy('start_time', 'asc')->paginate(20);
+        return view('admin.schedules.show', ['schedules' => $schedules, 'movies' => $movies]);
+    }
+
+    public function scheduleEdit($id) {
+        $schedule = Schedule::findOrFail($id);
+        $movie = Movie::findOrFail($schedule->movie_id);
+
+        return view('admin.schedules.edit', compact('movie', 'schedule'));
+    }
+
+    public function scheduleUpdate(Request $request, $id) {
+        $schedule = Schedule::findOrFail($id);
+
+        $validated = $request->validate([
+            'movie_id' => 'required|exists:movies,id',
+            'start_time_date' => 'required|date_format:Y-m-d',
+            'start_time_time' => 'required|date_format:H:i',
+            'end_time_date' => 'required|date_format:Y-m-d',
+            'end_time_time' => 'required|date_format:H:i',
+        ],[
+            'movie_id.required' => '映画IDを入力してください',
+            'movie_id.exists' => '指定された映画が存在しません',
+            'start_time_date.required' => '開始日の入力は必須です',
+            'start_time_date.date' => '開始日は有効な日付形式で入力してください',
+            'start_time_time.required' => '開始時間の入力は必須です',
+            'end_time_date.required' => '終了日の入力は必須です',
+            'end_time_date.date' => '終了日は有効な日付形式で入力してください',
+            'end_time_time.required' => '終了時間の入力は必須です',
+        ]);
+
+        $start_time = date('Y-m-d H:i:s', strtotime($validated['start_time_date'] . ' ' . $validated['start_time_time']));
+        $end_time = date('Y-m-d H:i:s', strtotime($validated['end_time_date'] . ' ' . $validated['end_time_time']));
+
+        $schedule->update([
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+        ]);
+
+        return redirect()->route('movies.scheduleShow', ['id' => $schedule->movie_id])->with('success', 'スケジュールが更新されました');
+    }
+
+    public function scheduleCreate($id) {
+        $movie = Movie::findOrFail($id);
+        return view('admin.schedules.create', compact('movie'));
+    }
+
+    public function scheduleStore(Request $request, $id) {
+        $movie = Movie::findOrFail($id);
+
+        $validated = $request->validate([
+            'movie_id' => 'required|exists:movies,id',
+            'start_time_date' => 'required|date_format:Y-m-d',
+            'start_time_time' => 'required|date_format:H:i',
+            'end_time_date' => 'required|date_format:Y-m-d',
+            'end_time_time' => 'required|date_format:H:i',
+        ],[
+            'movie_id.required' => '映画IDを入力してください',
+            'movie_id.exists' => '指定された映画が存在しません',
+            'start_time_date.required' => '開始日の入力は必須です',
+            'start_time_date.date' => '開始日は有効な日付形式で入力してください',
+            'start_time_time.required' => '開始時間の入力は必須です',
+            'end_time_date.required' => '終了日の入力は必須です',
+            'end_time_date.date' => '終了日は有効な日付形式で入力してください',
+            'end_time_time.required' => '終了時間の入力は必須です',
+        ]);
+
+        $start_time = date('Y-m-d H:i:s', strtotime($validated['start_time_date'] . ' ' . $validated['start_time_time']));
+        $end_time = date('Y-m-d H:i:s', strtotime($validated['end_time_date'] . ' ' . $validated['end_time_time']));
+
+        Schedule::create([
+            'movie_id' => $movie->id,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+        ]);
+
+        return redirect()->route('movies.scheduleIndex', ['id' => $movie->id])->with('success', 'スケジュールが登録されました');
+    }
+
+    public function scheduleDestroyById($schedule_id) {
+        $schedule = Schedule::findOrFail($schedule_id);
+        $movieId = $schedule->movie_id;
+        $schedule->delete();
+
+        return redirect()->route('movies.scheduleShow', ['id' => $movieId])->with('success', 'スケジュールが削除されました');
+    }
 }

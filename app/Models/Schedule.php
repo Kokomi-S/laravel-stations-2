@@ -8,11 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
 
-    public function schedules()
-    {
-        return $this->hasMany(Schedule::class)->orderBy('start_time', 'asc');
-    }
-
     protected $fillable = [
         'id',           // ID
         'movie_id',     // 列

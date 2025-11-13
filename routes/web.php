@@ -36,6 +36,13 @@ Route::post('/admin/movies/store', [MovieController::class, 'store'])->name('mov
 Route::get('/admin/movies/{id}/edit', [MovieController::class, 'edit'])->name('movies.edit');
 Route::patch('/admin/movies/{id}/update', [MovieController::class, 'update'])->name('movies.update');
 Route::delete('/admin/movies/{id}/destroy', [MovieController::class, 'destroy'])->name('movies.destroy');
+Route::get('/admin/schedules', [MovieController::class, 'scheduleIndex'])->name('movies.scheduleIndex');
+Route::get('/admin/movies/{id}', [MovieController::class, 'scheduleShow'])->name('movies.scheduleShow');
+Route::post('/admin/movies/{id}/schedules/store', [MovieController::class, 'scheduleStore'])->name('movies.scheduleStore');
+Route::get('/admin/schedules/{id}/edit', [MovieController::class, 'scheduleEdit'])->name('movies.scheduleEdit');
+Route::get('/admin/movies/{id}/schedules/create', [MovieController::class, 'scheduleCreate'])->name('movies.scheduleCreate');
+Route::patch('/admin/schedules/{id}/update', [MovieController::class, 'scheduleUpdate'])->name('movies.scheduleUpdate');
+Route::delete('/admin/schedules/{schedule_id}/destroy', [MovieController::class, 'scheduleDestroyById'])->name('movies.scheduleDestroyById');
+
 //座席表
 Route::get('/sheets', [SheetController::class, 'index'])->name('sheets.index');
-
