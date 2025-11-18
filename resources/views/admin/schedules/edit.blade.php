@@ -11,7 +11,7 @@
         
         @if ($errors->any())
             <div style="color: red;">
-                @foreach ($errors->all() as $error)
+                @foreach (array_unique($errors->all()) as $error)
                     {{ $error }}<br>
                 @endforeach
             </div>
@@ -21,19 +21,19 @@
             @method('PATCH')
             <div>
                 <label for="start_time_date">開始日付:</label>
-                <input type="date" id="start_time_date" name="start_time_date" value="{{ old('start_time_date') }}" required>
+                <input type="date" id="start_time_date" name="start_time_date" value="{{ old('start_time_date', $schedule->start_time->format('Y-m-d')) }}" required>
             </div>
             <div>
                 <label for="start_time_time">開始時刻:</label>
-                <input type="time" id="start_time_time" name="start_time_time" value="{{ old('start_time_time') }}" required>
+                <input type="time" id="start_time_time" name="start_time_time" value="{{ old('start_time_time', $schedule->start_time->format('H:i')) }}" required>
             </div>
             <div>
                 <label for="end_time_date">終了日付:</label>
-                <input type="date" id="end_time_date" name="end_time_date" value="{{ old('end_time_date') }}" required>
+                <input type="date" id="end_time_date" name="end_time_date" value="{{ old('end_time_date', $schedule->end_time->format('Y-m-d')) }}" required>
             </div>
             <div>
                 <label for="end_time_time">終了時刻:</label>
-                <input type="time" id="end_time_time" name="end_time_time" value="{{ old('end_time_time') }}" required>
+                <input type="time" id="end_time_time" name="end_time_time" value="{{ old('end_time_time', $schedule->end_time->format('H:i')) }}" required>
             </div>
             <div style="padding: 20px;">
                 <button type="submit">登録</button>
