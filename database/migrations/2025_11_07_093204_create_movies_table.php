@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->unsignedBigInteger('genre_id');
+            $table->foreign('genre_id')
+                ->references('id')
+                ->on('genres')
+                ->onDelete('restrict');
             $table->string('image_url');
             $table->year('published_year');
             $table->boolean('is_showing');
